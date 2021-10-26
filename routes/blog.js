@@ -7,14 +7,8 @@ let Post = require('../models/post.model');
 const ObjectId = require("mongodb").ObjectId;
 
 blogRoutes.route('/blog').get((req, res) => {
-    let db_connection = dbo.getDb('portfolio_blog');
-    db_connection
-        .collection('posts')
-        .find({})
-        .toArray((err, result) => {
-            if (err) throw err;
-            res.json(result);
-        });
+    Post.find().then(posts => res.json(posts))
+    .catch(err => res.status(400).json('err: ' + err));
 })
 
 blogRoutes.route('/blog/makerand').get((req,res) => {
